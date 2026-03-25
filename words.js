@@ -542,121 +542,121 @@ const italianWords = [
 
   // Present tense conjugations — essere (to be)
   { english: "I am", translations: ["sono"] },
-  { english: "you are", translations: ["sei"] },
+  { english: "you (singular) are", translations: ["sei"] },
   { english: "he/she is", translations: ["è"] },
   { english: "we are", translations: ["siamo"] },
-  { english: "you all are", translations: ["siete"] },
+  { english: "you (plural) are", translations: ["siete"] },
   { english: "they are", translations: ["sono"] },
 
   // Present tense conjugations — avere (to have)
   { english: "I have", translations: ["ho"] },
-  { english: "you have", translations: ["hai"] },
+  { english: "you (singular) have", translations: ["hai"] },
   { english: "he/she has", translations: ["ha"] },
   { english: "we have", translations: ["abbiamo"] },
-  { english: "you all have", translations: ["avete"] },
+  { english: "you (plural) have", translations: ["avete"] },
   { english: "they have", translations: ["hanno"] },
 
   // Present tense conjugations — fare (to do/make)
   { english: "I do", translations: ["faccio"] },
-  { english: "you do", translations: ["fai"] },
+  { english: "you (singular) do", translations: ["fai"] },
   { english: "he/she does", translations: ["fa"] },
   { english: "we do", translations: ["facciamo"] },
-  { english: "you all do", translations: ["fate"] },
+  { english: "you (plural) do", translations: ["fate"] },
   { english: "they do", translations: ["fanno"] },
 
   // Present tense conjugations — andare (to go)
   { english: "I go", translations: ["vado"] },
-  { english: "you go", translations: ["vai"] },
+  { english: "you (singular) go", translations: ["vai"] },
   { english: "he/she goes", translations: ["va"] },
   { english: "we go", translations: ["andiamo"] },
-  { english: "you all go", translations: ["andate"] },
+  { english: "you (plural) go", translations: ["andate"] },
   { english: "they go", translations: ["vanno"] },
 
   // Present tense conjugations — venire (to come)
   { english: "I come", translations: ["vengo"] },
-  { english: "you come", translations: ["vieni"] },
+  { english: "you (singular) come", translations: ["vieni"] },
   { english: "he/she comes", translations: ["viene"] },
   { english: "we come", translations: ["veniamo"] },
-  { english: "you all come", translations: ["venite"] },
+  { english: "you (plural) come", translations: ["venite"] },
   { english: "they come", translations: ["vengono"] },
 
   // Present tense conjugations — stare (to stay/be)
   { english: "I stay", translations: ["sto"] },
-  { english: "you stay", translations: ["stai"] },
+  { english: "you (singular) stay", translations: ["stai"] },
   { english: "he/she stays", translations: ["sta"] },
   { english: "we stay", translations: ["stiamo"] },
-  { english: "you all stay", translations: ["state"] },
+  { english: "you (plural) stay", translations: ["state"] },
   { english: "they stay", translations: ["stanno"] },
 
   // Present tense conjugations — dare (to give)
   { english: "I give", translations: ["do"] },
-  { english: "you give", translations: ["dai"] },
+  { english: "you (singular) give", translations: ["dai"] },
   { english: "he/she gives", translations: ["dà"] },
   { english: "we give", translations: ["diamo"] },
-  { english: "you all give", translations: ["date"] },
+  { english: "you (plural) give", translations: ["date"] },
   { english: "they give", translations: ["danno"] },
 
   // Present tense conjugations — volere (to want)
   { english: "I want", translations: ["voglio"] },
-  { english: "you want", translations: ["vuoi"] },
+  { english: "you (singular) want", translations: ["vuoi"] },
   { english: "he/she wants", translations: ["vuole"] },
   { english: "we want", translations: ["vogliamo"] },
-  { english: "you all want", translations: ["volete"] },
+  { english: "you (plural) want", translations: ["volete"] },
   { english: "they want", translations: ["vogliono"] },
 
   // Present tense conjugations — potere (to be able to)
   { english: "I can", translations: ["posso"] },
-  { english: "you can", translations: ["puoi"] },
+  { english: "you (singular) can", translations: ["puoi"] },
   { english: "he/she can", translations: ["può"] },
   { english: "we can", translations: ["possiamo"] },
-  { english: "you all can", translations: ["potete"] },
+  { english: "you (plural) can", translations: ["potete"] },
   { english: "they can", translations: ["possono"] },
 
   // Present tense conjugations — dovere (to have to)
   { english: "I must", translations: ["devo"] },
-  { english: "you must", translations: ["devi"] },
+  { english: "you (singular) must", translations: ["devi"] },
   { english: "he/she must", translations: ["deve"] },
   { english: "we must", translations: ["dobbiamo"] },
-  { english: "you all must", translations: ["dovete"] },
+  { english: "you (plural) must", translations: ["dovete"] },
   { english: "they must", translations: ["devono"] },
 
   // Present tense conjugations — parlare (to speak)
   { english: "I speak", translations: ["parlo"] },
-  { english: "you speak", translations: ["parli"] },
+  { english: "you (singular) speak", translations: ["parli"] },
   { english: "he/she speaks", translations: ["parla"] },
   { english: "we speak", translations: ["parliamo"] },
-  { english: "you all speak", translations: ["parlate"] },
+  { english: "you (plural) speak", translations: ["parlate"] },
   { english: "they speak", translations: ["parlano"] },
 
   // Present tense conjugations — mangiare (to eat)
   { english: "I eat", translations: ["mangio"] },
-  { english: "you eat", translations: ["mangi"] },
+  { english: "you (singular) eat", translations: ["mangi"] },
   { english: "he/she eats", translations: ["mangia"] },
   { english: "we eat", translations: ["mangiamo"] },
-  { english: "you all eat", translations: ["mangiate"] },
+  { english: "you (plural) eat", translations: ["mangiate"] },
   { english: "they eat", translations: ["mangiano"] },
 
   // Present tense conjugations — bere (to drink)
   { english: "I drink", translations: ["bevo"] },
-  { english: "you drink", translations: ["bevi"] },
+  { english: "you (singular) drink", translations: ["bevi"] },
   { english: "he/she drinks", translations: ["beve"] },
   { english: "we drink", translations: ["beviamo"] },
-  { english: "you all drink", translations: ["bevete"] },
+  { english: "you (plural) drink", translations: ["bevete"] },
   { english: "they drink", translations: ["bevono"] },
 
   // Present tense conjugations — dormire (to sleep)
   { english: "I sleep", translations: ["dormo"] },
-  { english: "you sleep", translations: ["dormi"] },
+  { english: "you (singular) sleep", translations: ["dormi"] },
   { english: "he/she sleeps", translations: ["dorme"] },
   { english: "we sleep", translations: ["dormiamo"] },
-  { english: "you all sleep", translations: ["dormite"] },
+  { english: "you (plural) sleep", translations: ["dormite"] },
   { english: "they sleep", translations: ["dormono"] },
 
   // Present tense conjugations — capire (to understand)
   { english: "I understand", translations: ["capisco"] },
-  { english: "you understand", translations: ["capisci"] },
+  { english: "you (singular) understand", translations: ["capisci"] },
   { english: "he/she understands", translations: ["capisce"] },
   { english: "we understand", translations: ["capiamo"] },
-  { english: "you all understand", translations: ["capite"] },
+  { english: "you (plural) understand", translations: ["capite"] },
   { english: "they understand", translations: ["capiscono"] },
 ];
