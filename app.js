@@ -1,4 +1,4 @@
-const GAME_DURATION = 30;
+const GAME_DURATION = 60;
 let mode = 'en-to-it'; // 'en-to-it' or 'it-to-en'
 let selectedLang = 'it';
 const LANGUAGES = {
@@ -277,12 +277,13 @@ function endGame() {
   setText('final-total', attempted);
 
   const pct = attempted > 0 ? score / attempted : 0;
+  const isFr = selectedLang === 'fr';
   let msg;
   if (attempted === 0)   msg = "Speak your answers out loud next time!";
-  else if (pct >= .9)    msg = "Straordinario! You're a natural! 🌟";
-  else if (pct >= .7)    msg = "Molto bene! Keep it up! 💪";
-  else if (pct >= .5)    msg = "Buono! Practice makes perfect.";
-  else                   msg = "Keep going — you'll improve! 🇮🇹";
+  else if (pct >= .9)    msg = isFr ? "Extraordinaire! Tu es un naturel! 🌟" : "Straordinario! You're a natural! 🌟";
+  else if (pct >= .7)    msg = isFr ? "Très bien! Continue comme ça! 💪"     : "Molto bene! Keep it up! 💪";
+  else if (pct >= .5)    msg = isFr ? "Bien! C'est en forgeant qu'on devient forgeron." : "Buono! Practice makes perfect.";
+  else                   msg = isFr ? "Continue — tu vas t'améliorer! 🇫🇷"   : "Keep going — you'll improve! 🇮🇹";
   setText('result-msg', msg);
 
   setTimeout(() => showScreen('end-screen'), 600);
