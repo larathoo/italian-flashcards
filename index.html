@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Language Flashcards</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- START SCREEN -->
+    <div id="start-screen" class="screen active">
+      <h1>Language Flashcards</h1>
+      <p id="start-desc">An English word will be shown.<br>Speak the Italian translation before the timer runs out.</p>
+
+      <div class="lang-toggle">
+        <button id="lang-it" class="mode-btn active">🇮🇹 Italian</button>
+        <button id="lang-fr" class="mode-btn">🇫🇷 French</button>
+      </div>
+
+      <div class="mode-toggle">
+        <button id="mode-en-it" class="mode-btn active">🇬🇧 → <span id="mode-target-flag">🇮🇹</span></button>
+        <button id="mode-it-en" class="mode-btn"><span id="mode-source-flag">🇮🇹</span> → 🇬🇧</button>
+      </div>
+
+      <div class="rules">
+        <span>✅ Correct → green, next word</span>
+        <span>❌ Wrong → red, answer shown</span>
+        <span>⏭ Skip → answer shown, move on</span>
+      </div>
+      <button id="start-btn" class="btn btn-primary">Start (60s)</button>
+      <p class="note">Requires Chrome or Edge browser for speech recognition.</p>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="game-screen" class="screen">
+      <div class="hud">
+        <div class="score-box">
+          <div class="hud-label">Score</div>
+          <div id="score">0</div>
+        </div>
+        <div class="timer-box">
+          <div class="timer-bar-track">
+            <div id="timer-bar" class="timer-bar"></div>
+          </div>
+          <div id="timer-num">60</div>
+        </div>
+      </div>
+
+      <div id="card" class="card">
+        <div id="english-word">—</div>
+        <div id="italian-reveal" class="italian-reveal"></div>
+        <div id="mic-indicator" class="mic-indicator">
+          <span class="dot"></span>
+          <span id="mic-label">Listening…</span>
+        </div>
+      </div>
+
+      <button id="skip-btn" class="btn btn-skip">Skip →</button>
+    </div>
+
+    <!-- END SCREEN -->
+    <div id="end-screen" class="screen">
+      <div class="flag">🏆</div>
+      <h2>Time's up!</h2>
+      <div class="result">
+        <span id="final-score">0</span>
+        <span class="slash"> correct out of </span>
+        <span id="final-total">0</span>
+        <span class="slash"> attempts</span>
+      </div>
+      <p id="result-msg"></p>
+      <button id="again-btn" class="btn btn-primary">Play Again</button>
+    </div>
+
+  </div>
+
+  <script src="words.js"></script>
+  <script src="words_fr.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
