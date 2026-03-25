@@ -1,4 +1,4 @@
-const GAME_DURATION = 60;
+const GAME_DURATION = 30;
 let mode = 'en-to-it'; // 'en-to-it' or 'it-to-en'
 let selectedLang = 'it';
 const LANGUAGES = {
@@ -197,7 +197,7 @@ function startGame() {
 
 function loadNextWord() {
   isProcessing = false;
-  wordReadyAt = Date.now() + 700; // block any buffered audio from the previous word
+  wordReadyAt = Date.now() + 500; // block any buffered audio from the previous word
   clearTimeout(feedbackTimeout);
 
   // Cycle through all words before repeating
@@ -232,14 +232,14 @@ function handleResult(correct, spoken) {
     updateScore();
     setCard('correct');
     setText('italian-reveal', reveal);
-    wordReadyAt = Date.now() + 800;
-    schedulNext(700);
+    wordReadyAt = Date.now() + 500;
+    schedulNext(450);
   } else {
     playDull();
     setCard('wrong');
     setText('italian-reveal', reveal);
-    wordReadyAt = Date.now() + 1200;
-    schedulNext(900);
+    wordReadyAt = Date.now() + 700;
+    schedulNext(600);
   }
   setMicOff(true);
   setMicLabel('…');
@@ -250,13 +250,13 @@ function skipWord() {
   clearTimeout(silenceTimeout);
   isProcessing = true;
   playDull();
-  wordReadyAt = Date.now() + 1800;
+  wordReadyAt = Date.now() + 900;
   setCard('skipped');
   const reveal = mode === 'en-to-it' ? currentWord.translations[0] : getAcceptedAnswers(currentWord)[0];
   setText('italian-reveal', reveal);
   setMicOff(true);
   setMicLabel('…');
-  schedulNext(1600);
+  schedulNext(800);
 }
 
 function schedulNext(delay) {
