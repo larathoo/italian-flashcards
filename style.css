@@ -101,6 +101,24 @@ p  { color: #aaa; line-height: 1.6; }
 }
 .btn-skip:hover { background: rgba(255,255,255,.12); }
 
+/* ── Home button ── */
+.btn-home {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  color: #ccc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-home:hover { background: rgba(255,255,255,.16); }
+
 /* ── HUD ── */
 .hud {
   width: 100%;

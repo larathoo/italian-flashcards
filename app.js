@@ -357,6 +357,15 @@ document.getElementById('start-btn').addEventListener('click', () => {
 
 document.getElementById('skip-btn').addEventListener('click', skipWord);
 
+document.getElementById('home-btn').addEventListener('click', () => {
+  gameActive = false;
+  clearInterval(timerInterval);
+  clearTimeout(feedbackTimeout);
+  clearTimeout(silenceTimeout);
+  stopListening();
+  showScreen('start-screen');
+});
+
 document.getElementById('again-btn').addEventListener('click', () => {
   showScreen('start-screen');
 });
