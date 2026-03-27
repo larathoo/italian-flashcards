@@ -1,9 +1,10 @@
 const GAME_DURATION = 60;
 let mode = 'en-to-it'; // 'en-to-it' or 'it-to-en'
 let selectedLang = 'it';
+let selectedLevel = 'a1'; // 'a1' | 'a2' | 'b1' — only applies to Italian
 const LANGUAGES = {
-  it: { name: 'Italian', words: italianWords, recogLang: 'it-IT', flag: '🇮🇹' },
-  fr: { name: 'French',  words: frenchWords,  recogLang: 'fr-FR', flag: '🇫🇷' },
+  it: { name: 'Italian', levels: italianLevels, recogLang: 'it-IT', flag: '🇮🇹' },
+  fr: { name: 'French',  words: frenchWords,   recogLang: 'fr-FR', flag: '🇫🇷' },
 };
 
 // ── Audio ──
@@ -201,7 +202,8 @@ function loadNextWord() {
   clearTimeout(feedbackTimeout);
 
   // Cycle through all words before repeating
-  const wordList = LANGUAGES[selectedLang].words;
+  const lang = LANGUAGES[selectedLang];
+  const wordList = lang.levels ? lang.levels[selectedLevel] : lang.words;
   if (usedIndices.length >= wordList.length) usedIndices = [];
   let idx;
   do { idx = Math.floor(Math.random() * wordList.length); }
@@ -338,6 +340,8 @@ function updateModeDesc() {
   } else {
     setText('start-desc', `A ${lang.name} word will be shown.\nSpeak the English translation before the timer runs out.`);
   }
+  // Show level selector only for Italian (the only language with levels so far)
+  document.getElementById('level-toggle').style.display = lang.levels ? 'flex' : 'none';
 }
 
 // ── Event listeners ──
@@ -396,4 +400,13 @@ document.getElementById('mode-it-en').addEventListener('click', () => {
   document.getElementById('mode-it-en').classList.add('active');
   document.getElementById('mode-en-it').classList.remove('active');
   updateModeDesc();
+});
+
+['a1', 'a2', 'b1'].forEach(level => {
+  document.getElementById(`level-${level}`).addEventListener('click', () => {
+    selectedLevel = level;
+    ['a1', 'a2', 'b1'].forEach(l => {
+      document.getElementById(`level-${l}`).classList.toggle('active', l === level);
+    });
+  });
 });

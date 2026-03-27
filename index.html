@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Language Flashcards</title>
+  <title>Spoken Flashcards</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,12 +11,18 @@
 
     <!-- START SCREEN -->
     <div id="start-screen" class="screen active">
-      <h1>Language Flashcards</h1>
+      <h1>Spoken Flashcards</h1>
       <p id="start-desc">An English word will be shown.<br>Speak the Italian translation before the timer runs out.</p>
 
       <div class="lang-toggle">
         <button id="lang-it" class="mode-btn active">🇮🇹 Italian</button>
         <button id="lang-fr" class="mode-btn">🇫🇷 French</button>
+      </div>
+
+      <div class="level-toggle" id="level-toggle">
+        <button id="level-a1" class="mode-btn active">A1 Beginner</button>
+        <button id="level-a2" class="mode-btn">A2 Improver</button>
+        <button id="level-b1" class="mode-btn">B1 Intermediate</button>
       </div>
 
       <div class="mode-toggle">
