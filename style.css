@@ -47,6 +47,7 @@ p  { color: #aaa; line-height: 1.6; }
 .note { font-size: .78rem; color: #666; }
 
 .lang-toggle,
+.cat-toggle,
 .level-toggle,
 .mode-toggle {
   display: flex;
@@ -179,6 +180,13 @@ p  { color: #aaa; line-height: 1.6; }
   color: #fff;
   text-align: center;
   line-height: 1.2;
+}
+
+#english-word .lbl {
+  font-size: 0.35em;
+  font-weight: 400;
+  color: #aaa;
+  vertical-align: sub;
 }
 
 .italian-reveal {

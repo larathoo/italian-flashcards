@@ -2,12 +2,23 @@ const GAME_DURATION = 60;
 let mode = 'en-to-it'; // 'en-to-it' or 'it-to-en'
 let selectedLang = 'it';
 let selectedLevel = 'a1'; // 'a1' | 'a2' | 'b1' — only applies to Italian
+let selectedCategory = 'all'; // 'all' | 'vocab' | 'verbs'
 const LANGUAGES = {
   it: { name: 'Italian', levels: italianLevels, recogLang: 'it-IT', flag: '🇮🇹' },
-  fr: { name: 'French',  words: frenchWords,   recogLang: 'fr-FR', flag: '🇫🇷' },
+  fr: { name: 'French',  levels: frenchLevels, recogLang: 'fr-FR', flag: '🇫🇷' },
 };
 
 // ── Audio ──
+// ── Text-to-speech ──
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = LANGUAGES[selectedLang].recogLang;
+  utt.rate = 0.85;
+  speechSynthesis.cancel();
+  setTimeout(() => speechSynthesis.speak(utt), 50);
+}
+
 function playDull() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   const osc = ctx.createOscillator();
@@ -133,6 +144,13 @@ function restartListening() {
   }, 120);
 }
 
+// ── Category filtering ──
+function isVerbEntry(word) {
+  const e = word.english.toLowerCase();
+  return e.startsWith('to ') ||
+    /^(i|you|he\/she|he|she|we|they) [a-z]/i.test(e);
+}
+
 // ── Answer checking ──
 function normalize(text) {
   return text
@@ -203,7 +221,9 @@ function loadNextWord() {
 
   // Cycle through all words before repeating
   const lang = LANGUAGES[selectedLang];
-  const wordList = lang.levels ? lang.levels[selectedLevel] : lang.words;
+  let wordList = lang.levels ? lang.levels[selectedLevel] : lang.words;
+  if (selectedCategory === 'verbs') wordList = wordList.filter(isVerbEntry);
+  else if (selectedCategory === 'vocab') wordList = wordList.filter(w => !isVerbEntry(w));
   if (usedIndices.length >= wordList.length) usedIndices = [];
   let idx;
   do { idx = Math.floor(Math.random() * wordList.length); }
@@ -214,7 +234,9 @@ function loadNextWord() {
 
   setCard('neutral');
   const prompt = mode === 'en-to-it' ? currentWord.english : currentWord.translations[0];
-  setText('english-word', prompt);
+  document.getElementById('english-word').innerHTML = prompt
+    .replace(/\(singular\)/g, '<sub class="lbl">sing.</sub>')
+    .replace(/\(plural\)/g,   '<sub class="lbl">pl.</sub>');
   setText('italian-reveal', '');
   setMicOff(false);
   setMicLabel('Listening…');
@@ -240,6 +262,7 @@ function handleResult(correct, spoken) {
     playDull();
     setCard('wrong');
     setText('italian-reveal', reveal);
+    if (mode === 'en-to-it') speak(currentWord.translations[0]);
     wordReadyAt = Date.now() + 700;
     schedulNext(600);
   }
@@ -256,6 +279,7 @@ function skipWord() {
   setCard('skipped');
   const reveal = mode === 'en-to-it' ? currentWord.translations[0] : getAcceptedAnswers(currentWord)[0];
   setText('italian-reveal', reveal);
+  if (mode === 'en-to-it') speak(currentWord.translations[0]);
   setMicOff(true);
   setMicLabel('…');
   schedulNext(800);
@@ -400,6 +424,15 @@ document.getElementById('mode-it-en').addEventListener('click', () => {
   document.getElementById('mode-it-en').classList.add('active');
   document.getElementById('mode-en-it').classList.remove('active');
   updateModeDesc();
+});
+
+['all', 'vocab', 'verbs'].forEach(cat => {
+  document.getElementById(`cat-${cat}`).addEventListener('click', () => {
+    selectedCategory = cat;
+    ['all', 'vocab', 'verbs'].forEach(c => {
+      document.getElementById(`cat-${c}`).classList.toggle('active', c === cat);
+    });
+  });
 });
 
 ['a1', 'a2', 'b1'].forEach(level => {
