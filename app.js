@@ -22,7 +22,9 @@ function speak(text) {
   const voices = speechSynthesis.getVoices();
   const targetLang = LANGUAGES[selectedLang].recogLang;
   const langPrefix = targetLang.split('-')[0];
-  const voice = voices.find(v => v.lang === targetLang) ||
+  // Prefer Google voices — they use Chrome's audio pipeline, avoiding macOS TTS routing issues
+  const voice = voices.find(v => v.lang === targetLang && v.name.toLowerCase().includes('google')) ||
+                voices.find(v => v.lang === targetLang) ||
                 voices.find(v => v.lang.startsWith(langPrefix));
 
   const utt = new SpeechSynthesisUtterance(text);
@@ -31,11 +33,20 @@ function speak(text) {
   if (voice) utt.voice = voice;
 
   speechSynthesis.cancel();
-  setTimeout(() => speechSynthesis.speak(utt), 50);
+  // 200ms delay: gives the Web Audio beep time to finish before TTS starts
+  setTimeout(() => speechSynthesis.speak(utt), 200);
+}
+
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx || audioCtx.state === 'closed') {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioCtx;
 }
 
 function playDull() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const ctx = getAudioCtx();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.connect(gain);
@@ -49,7 +60,7 @@ function playDull() {
 }
 
 function playBing() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const ctx = getAudioCtx();
   // Two quick ascending notes — like a "correct!" check sound
   [{ freq: 784, start: 0 }, { freq: 1047, start: 0.12 }].forEach(({ freq, start }) => {
     const osc = ctx.createOscillator();
