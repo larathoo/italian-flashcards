@@ -45,6 +45,8 @@ let audioCtx = null;
 function getAudioCtx() {
   if (!audioCtx || audioCtx.state === 'closed') {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  } else if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
   }
   return audioCtx;
 }
@@ -61,6 +63,8 @@ function playDull() {
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
   osc.start(ctx.currentTime);
   osc.stop(ctx.currentTime + 0.12);
+  // Suspend after sound finishes to release the audio session for TTS
+  setTimeout(() => { if (audioCtx && audioCtx.state === 'running') audioCtx.suspend(); }, 150);
 }
 
 function playBing() {
