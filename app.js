@@ -408,7 +408,7 @@ if (SpeechRecognition) {
   initRecognition();
 } else {
   document.getElementById('start-btn').insertAdjacentHTML('afterend',
-    '<p style="color:#f87171;font-size:.85rem;margin-top:8px">Speech recognition not supported. Please use Chrome or Edge.</p>');
+    '<p style="color:#f87171;font-size:.85rem;margin-top:8px">Speech recognition not supported. Please use Chrome.</p>');
   document.getElementById('start-btn').disabled = true;
 }
 
