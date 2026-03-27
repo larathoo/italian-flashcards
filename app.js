@@ -22,9 +22,10 @@ function speak(text) {
   const voices = speechSynthesis.getVoices();
   const targetLang = LANGUAGES[selectedLang].recogLang;
   const langPrefix = targetLang.split('-')[0];
-  // Prefer Google voices — they use Chrome's audio pipeline, avoiding macOS TTS routing issues
-  const voice = voices.find(v => v.lang === targetLang && v.name.toLowerCase().includes('google')) ||
+  // Prefer local system voices (more natural); fall back to any matching voice
+  const voice = voices.find(v => v.lang === targetLang && v.localService) ||
                 voices.find(v => v.lang === targetLang) ||
+                voices.find(v => v.lang.startsWith(langPrefix) && v.localService) ||
                 voices.find(v => v.lang.startsWith(langPrefix));
 
   const utt = new SpeechSynthesisUtterance(text);
