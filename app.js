@@ -19,15 +19,22 @@ if (window.speechSynthesis) {
 
 function speak(text) {
   if (!window.speechSynthesis) return;
-  const utt = new SpeechSynthesisUtterance(text);
+  const voices = speechSynthesis.getVoices();
   const targetLang = LANGUAGES[selectedLang].recogLang;
+  const langPrefix = targetLang.split('-')[0];
+  const voice = voices.find(v => v.lang === targetLang) ||
+                voices.find(v => v.lang.startsWith(langPrefix));
+
+  const utt = new SpeechSynthesisUtterance(text);
   utt.lang = targetLang;
   utt.rate = 0.85;
-  // Explicitly pick a matching voice — Chrome needs this to reliably use the right language
-  const langPrefix = targetLang.split('-')[0];
-  const voice = ttsVoices.find(v => v.lang === targetLang) ||
-                ttsVoices.find(v => v.lang.startsWith(langPrefix));
   if (voice) utt.voice = voice;
+
+  utt.onerror = (e) => console.error('[TTS] error:', e.error, '| text:', text, '| voice:', voice?.name);
+  utt.onstart = () => console.log('[TTS] started:', text, '| voice:', voice?.name ?? 'default');
+  utt.onend   = () => console.log('[TTS] ended:', text);
+
+  console.log('[TTS] queuing:', text, '| lang:', targetLang, '| voice:', voice?.name ?? 'NONE FOUND', '| voices loaded:', voices.length);
   speechSynthesis.cancel();
   setTimeout(() => speechSynthesis.speak(utt), 50);
 }
