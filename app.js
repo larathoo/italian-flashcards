@@ -30,11 +30,6 @@ function speak(text) {
   utt.rate = 0.85;
   if (voice) utt.voice = voice;
 
-  utt.onerror = (e) => console.error('[TTS] error:', e.error, '| text:', text, '| voice:', voice?.name);
-  utt.onstart = () => console.log('[TTS] started:', text, '| voice:', voice?.name ?? 'default');
-  utt.onend   = () => console.log('[TTS] ended:', text);
-
-  console.log('[TTS] queuing:', text, '| lang:', targetLang, '| voice:', voice?.name ?? 'NONE FOUND', '| voices loaded:', voices.length);
   speechSynthesis.cancel();
   setTimeout(() => speechSynthesis.speak(utt), 50);
 }
