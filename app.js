@@ -110,7 +110,7 @@ function initRecognition() {
   recognition = new SpeechRecognition();
   recognition.lang = mode === 'en-to-it' ? LANGUAGES[selectedLang].recogLang : 'en-US';
   recognition.continuous = true;    // keep mic open for the whole game
-  recognition.interimResults = true;
+  recognition.interimResults = false;
   recognition.maxAlternatives = 5;
 
   recognition.onresult = (e) => {
@@ -119,18 +119,18 @@ function initRecognition() {
     if (Date.now() < wordReadyAt) return;
 
     const results = e.results[e.resultIndex];
+    if (!results.isFinal) return;
 
-    if (results.isFinal) {
-      minResultIndex = e.resultIndex + 1; // don't re-process this result
-      // Check "skip" voice command on final only to avoid false triggers
-      const topTranscript = results[0].transcript.trim().toLowerCase();
-      if (topTranscript === 'skip') {
-        skipWord();
-        return;
-      }
+    minResultIndex = e.resultIndex + 1; // don't re-process this result
+
+    // Check if user said "skip"
+    const topTranscript = results[0].transcript.trim().toLowerCase();
+    if (topTranscript === 'skip') {
+      skipWord();
+      return;
     }
 
-    // Check correct on interim + final — fires as soon as the word is recognised
+    // Try each alternative — accept the first that matches
     for (let i = 0; i < results.length; i++) {
       const spoken = results[i].transcript;
       if (isCorrect(spoken)) {
@@ -138,9 +138,6 @@ function initRecognition() {
         return;
       }
     }
-
-    // Only mark wrong on final results to avoid false negatives mid-speech
-    if (!results.isFinal) return;
     handleResult(false, results[0].transcript);
   };
 
