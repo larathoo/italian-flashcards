@@ -10,11 +10,24 @@ const LANGUAGES = {
 
 // ── Audio ──
 // ── Text-to-speech ──
+let ttsVoices = [];
+if (window.speechSynthesis) {
+  const loadVoices = () => { ttsVoices = speechSynthesis.getVoices(); };
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
 function speak(text) {
   if (!window.speechSynthesis) return;
   const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = LANGUAGES[selectedLang].recogLang;
+  const targetLang = LANGUAGES[selectedLang].recogLang;
+  utt.lang = targetLang;
   utt.rate = 0.85;
+  // Explicitly pick a matching voice — Chrome needs this to reliably use the right language
+  const langPrefix = targetLang.split('-')[0];
+  const voice = ttsVoices.find(v => v.lang === targetLang) ||
+                ttsVoices.find(v => v.lang.startsWith(langPrefix));
+  if (voice) utt.voice = voice;
   speechSynthesis.cancel();
   setTimeout(() => speechSynthesis.speak(utt), 50);
 }
