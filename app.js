@@ -179,7 +179,9 @@ function restartListening() {
 
 // ── Category filtering ──
 function isVerbEntry(word) {
-  const e = word.english.toLowerCase();
+  // Strip parentheticals e.g. "(singular)" before testing, so
+  // "you (singular) spoke" → "you spoke" → correctly detected as verb
+  const e = word.english.toLowerCase().replace(/\s*\([^)]*\)/g, '').trim();
   return e.startsWith('to ') ||
     /^(i|you|he\/she|he|she|we|they) [a-z]/i.test(e);
 }
