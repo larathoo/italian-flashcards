@@ -32,6 +32,9 @@ function speak(text) {
   utt.rate = 0.85;
   if (voice) utt.voice = voice;
 
+  // On iOS, TTS interrupts the SpeechRecognition audio session — restart recognition when TTS finishes
+  utt.onend = () => { if (gameActive) try { recognition.start(); } catch (_) {} };
+
   speechSynthesis.cancel();
   // 200ms delay: gives the Web Audio beep time to finish before TTS starts
   setTimeout(() => speechSynthesis.speak(utt), 200);
