@@ -298,8 +298,8 @@ function handleResult(correct, spoken) {
     setCard('wrong');
     setText('italian-reveal', reveal);
     if (mode === 'en-to-it') speak(currentWord.translations[0]);
-    wordReadyAt = Date.now() + 900;
-    schedulNext(800);
+    wordReadyAt = Date.now() + 1600;
+    schedulNext(1500);
   }
   setMicOff(true);
   setMicLabel('…');
