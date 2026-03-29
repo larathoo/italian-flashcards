@@ -309,6 +309,7 @@ function skipWord() {
   if (!gameActive || isProcessing) return;
   clearTimeout(silenceTimeout);
   isProcessing = true;
+  attempted++;
   playDull();
   wordReadyAt = Date.now() + 900;
   setCard('skipped');
