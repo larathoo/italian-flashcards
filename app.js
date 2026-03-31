@@ -1,8 +1,8 @@
 const GAME_DURATION = 60;
 let mode = 'en-to-it'; // 'en-to-it' or 'it-to-en'
 let selectedLang = 'it';
-let selectedLevel = 'a1'; // 'a1' | 'a2' | 'b1' — only applies to Italian
-let selectedCategory = 'all'; // 'all' | 'vocab' | 'verbs'
+let selectedCategory = 'vocab'; // 'vocab' | 'verbs'
+let selectedTense = 'all'; // 'all' | 'infinitives' | 'present' | 'past' | 'future' | 'imperfect'
 const LANGUAGES = {
   it: { name: 'Italian', levels: italianLevels, recogLang: 'it-IT', flag: '🇮🇹' },
   fr: { name: 'French',  levels: frenchLevels, recogLang: 'fr-FR', flag: '🇫🇷' },
@@ -177,13 +177,24 @@ function restartListening() {
   }, 120);
 }
 
-// ── Category filtering ──
+// ── Category / tense filtering ──
 function isVerbEntry(word) {
   // Strip parentheticals e.g. "(singular)" before testing, so
   // "you (singular) spoke" → "you spoke" → correctly detected as verb
   const e = word.english.toLowerCase().replace(/\s*\([^)]*\)/g, '').trim();
   return e.startsWith('to ') ||
     /^(i|you|he\/she|he|she|we|they) [a-z]/i.test(e);
+}
+
+function getEntryType(word) {
+  const e = word.english.toLowerCase().replace(/\s*\([^)]*\)/g, '').trim();
+  if (!isVerbEntry(word)) return 'vocab';
+  if (e.startsWith('to ')) return 'infinitives';
+  if (/\bwill\b/.test(e)) return 'future';
+  if (/\bused to\b/.test(e)) return 'imperfect';
+  if (/\b(was|were|went|came|spoke|ate|drank|did|saw|had|arrived|left|finished)\b/.test(e) ||
+      /\/ i have\b/.test(e)) return 'past';
+  return 'present';
 }
 
 // ── Answer checking ──
@@ -256,9 +267,14 @@ function loadNextWord() {
 
   // Cycle through all words before repeating
   const lang = LANGUAGES[selectedLang];
-  let wordList = lang.levels ? lang.levels[selectedLevel] : lang.words;
-  if (selectedCategory === 'verbs') wordList = wordList.filter(isVerbEntry);
-  else if (selectedCategory === 'vocab') wordList = wordList.filter(w => !isVerbEntry(w));
+  // Always use the full word list (b1 includes all levels)
+  let wordList = lang.levels ? lang.levels.b1 : lang.words;
+  if (selectedCategory === 'verbs') {
+    wordList = wordList.filter(isVerbEntry);
+    if (selectedTense !== 'all') wordList = wordList.filter(w => getEntryType(w) === selectedTense);
+  } else {
+    wordList = wordList.filter(w => !isVerbEntry(w));
+  }
   if (usedIndices.length >= wordList.length) usedIndices = [];
   let idx;
   do { idx = Math.floor(Math.random() * wordList.length); }
@@ -400,8 +416,8 @@ function updateModeDesc() {
   } else {
     setText('start-desc', `A ${lang.name} word will be shown.\nSpeak the English translation before the timer runs out.`);
   }
-  // Show level selector only for Italian (the only language with levels so far)
-  document.getElementById('level-toggle').style.display = lang.levels ? 'flex' : 'none';
+  // Show tense selector only when verbs are selected
+  document.getElementById('tense-toggle').style.display = selectedCategory === 'verbs' ? 'flex' : 'none';
 }
 
 // ── Event listeners ──
@@ -462,20 +478,21 @@ document.getElementById('mode-it-en').addEventListener('click', () => {
   updateModeDesc();
 });
 
-['all', 'vocab', 'verbs'].forEach(cat => {
+['vocab', 'verbs'].forEach(cat => {
   document.getElementById(`cat-${cat}`).addEventListener('click', () => {
     selectedCategory = cat;
-    ['all', 'vocab', 'verbs'].forEach(c => {
+    ['vocab', 'verbs'].forEach(c => {
       document.getElementById(`cat-${c}`).classList.toggle('active', c === cat);
     });
+    document.getElementById('tense-toggle').style.display = cat === 'verbs' ? 'flex' : 'none';
   });
 });
 
-['a1', 'a2', 'b1'].forEach(level => {
-  document.getElementById(`level-${level}`).addEventListener('click', () => {
-    selectedLevel = level;
-    ['a1', 'a2', 'b1'].forEach(l => {
-      document.getElementById(`level-${l}`).classList.toggle('active', l === level);
+['all', 'infinitives', 'present', 'past', 'future', 'imperfect'].forEach(tense => {
+  document.getElementById(`tense-${tense}`).addEventListener('click', () => {
+    selectedTense = tense;
+    ['all', 'infinitives', 'present', 'past', 'future', 'imperfect'].forEach(t => {
+      document.getElementById(`tense-${t}`).classList.toggle('active', t === tense);
     });
   });
 });
