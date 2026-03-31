@@ -262,7 +262,8 @@ function startGame() {
 
 function loadNextWord() {
   isProcessing = false;
-  wordReadyAt = Date.now() + 500; // block any buffered audio from the previous word
+  // Never shorten an existing block — wrong/skip paths set wordReadyAt further ahead
+  wordReadyAt = Math.max(wordReadyAt, Date.now() + 500);
   clearTimeout(feedbackTimeout);
 
   // Cycle through all words before repeating
@@ -314,7 +315,7 @@ function handleResult(correct, spoken) {
     setCard('wrong');
     setText('italian-reveal', reveal);
     if (mode === 'en-to-it') speak(currentWord.translations[0]);
-    wordReadyAt = Date.now() + 1600;
+    wordReadyAt = Date.now() + 2800; // long enough to outlast TTS + any buffered stale results
     schedulNext(1500);
   }
   setMicOff(true);
@@ -327,7 +328,7 @@ function skipWord() {
   isProcessing = true;
   attempted++;
   playDull();
-  wordReadyAt = Date.now() + 900;
+  wordReadyAt = Date.now() + 2800; // same protection as wrong — TTS can leave stale buffered results
   setCard('skipped');
   const reveal = mode === 'en-to-it' ? currentWord.translations[0] : getAcceptedAnswers(currentWord)[0];
   setText('italian-reveal', reveal);
